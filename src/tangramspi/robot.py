@@ -1,7 +1,7 @@
 import asyncio
 import time
 
-from gpiozero import Motor
+# from gpiozero import Motor
 
 async def schedule(delay, coroutine, *args, **kwargs):
     await asyncio.sleep(delay)
@@ -16,16 +16,16 @@ class Robot:
         self._action = None # latest action sent by server
         self._network_delay = None # difference between time.monotonic_ns() on robot vs on server
 
-        self._wheels = (
-            Motor(forward=5, backward=6),
-            Motor(forward=7, backward=8),
-            Motor(forward=9, backward=10)
-        )
+        # self._wheels = (
+        #     Motor(forward=5, backward=6),
+        #     Motor(forward=7, backward=8),
+        #     Motor(forward=9, backward=10)
+        # )
 
     def set_action(self, action):
         cur_delay = time.monotonic_ns() - action['time']
-        if network_delay is None or cur_delay < network_delay:
-            network_delay = cur_delay
+        if self._network_delay is None or cur_delay < self._network_delay:
+            self._network_delay = cur_delay
         
         asyncio.create_task(schedule(self.FAILSAFE_NS / 1e9, self._check_failsafe))
         self._set_action(action)  
@@ -33,7 +33,7 @@ class Robot:
     async def _check_failsafe(self):
         if self._action is None: return
 
-        latest_action_time = self._action['time'] - self.network_delay
+        latest_action_time = self._action['time'] - self._network_delay
 
         if time.monotonic_ns() - latest_action_time > self.FAILSAFE_NS:
             self._set_action(None)
@@ -41,13 +41,16 @@ class Robot:
     def _set_action(self, action):
         self._action = action
 
+        print(action)
+
         if self._action == None:
             return self._stop()
 
         # set wheel speeds
-        for wheel, speed in zip(self._wheels, self._action['wheel_speeds']):
-            wheel.value = speed
+        # for wheel, speed in zip(self._wheels, self._action['wheel_speeds']):
+        #     wheel.value = speed
 
     def _stop(self):
-        for wheel in self._wheels:
-            wheel.stop()
+        pass
+        # for wheel in self._wheels:
+        #     wheel.stop()

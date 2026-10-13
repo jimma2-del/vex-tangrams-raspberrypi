@@ -9,9 +9,9 @@ with open('id.txt', 'r') as f:
     ID = f.read()
 
 HOSTNAME = input("Enter hostname: ")
-PORT = 3000
+PORT = 8000
 
-URI = "ws://{HOSTNAME}:{PORT}"
+URI = f"ws://{HOSTNAME}:{PORT}/robots/ws"
 
 robot = Robot(id)
 
@@ -33,8 +33,12 @@ async def handle_websocket():
             print(f"Disconnected from server: {e}. Retrying in 5 seconds...")
             await asyncio.sleep(5)
 
+TPS = 60
 
 async def main():
     asyncio.create_task(handle_websocket())
+
+    while True:
+        await asyncio.sleep(1/TPS)
     
 asyncio.run(main())
