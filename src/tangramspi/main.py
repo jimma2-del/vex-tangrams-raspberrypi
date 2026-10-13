@@ -5,7 +5,7 @@ import json
 
 from .robot import Robot
 
-with open('shape.txt', 'r') as f:
+with open('id.txt', 'r') as f:
     ID = f.read()
 
 HOSTNAME = input("Enter hostname: ")
