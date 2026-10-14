@@ -8,7 +8,9 @@ version = "0.0.1"
 requires-python = ">= 3.12"
 dependencies = [
     "websockets==17.1",
-    "gpiozero==2.0.1"
+    "gpiozero==2.0.1",
+    "rpi.gpio==0.7.1",
+    "python-dotenv"
 ]
 authors = [
   {name = "Jim Ma", email = "jim.majk350@gmail.com"}

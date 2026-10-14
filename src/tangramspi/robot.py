@@ -1,7 +1,7 @@
 import asyncio
 import time
 
-# from gpiozero import Motor
+from gpiozero import Motor
 
 async def schedule(delay, coroutine, *args, **kwargs):
     await asyncio.sleep(delay)
@@ -16,11 +16,11 @@ class Robot:
         self._action = None # latest action sent by server
         self._network_delay = None # difference between time.monotonic_ns() on robot vs on server
 
-        # self._wheels = (
-        #     Motor(forward=5, backward=6),
-        #     Motor(forward=7, backward=8),
-        #     Motor(forward=9, backward=10)
-        # )
+        self._wheels = (
+            Motor(forward=5, backward=6),
+            Motor(forward=7, backward=8),
+            Motor(forward=9, backward=10)
+        )
 
     def set_action(self, action):
         cur_delay = time.monotonic_ns() - action['time']
@@ -47,10 +47,9 @@ class Robot:
             return self._stop()
 
         # set wheel speeds
-        # for wheel, speed in zip(self._wheels, self._action['wheel_speeds']):
-        #     wheel.value = speed
+        for wheel, speed in zip(self._wheels, self._action['wheel_speeds']):
+            wheel.value = speed
 
     def _stop(self):
-        pass
-        # for wheel in self._wheels:
-        #     wheel.stop()
+        for wheel in self._wheels:
+            wheel.stop()

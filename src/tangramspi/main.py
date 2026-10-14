@@ -5,11 +5,13 @@ import json
 
 from .robot import Robot
 
-with open('id.txt', 'r') as f:
-    ID = f.read()
+import os
+from dotenv import load_dotenv
 
-HOSTNAME = input("Enter hostname: ")
-PORT = 8000
+load_dotenv()
+ID = os.getenv("ID")
+HOSTNAME = os.getenv("HOSTNAME")
+PORT = os.getenv("PORT", default=8000)
 
 URI = f"ws://{HOSTNAME}:{PORT}/robots/ws"
 

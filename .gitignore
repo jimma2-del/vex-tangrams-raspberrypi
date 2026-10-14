@@ -218,8 +218,3 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
-
-
-
-# file specific to each robot, to figure out which shape it is
-id.txt
